@@ -21,7 +21,7 @@ function onClick(e) {
     }
 
     if (btn.id === "all-clear") {
-        display.innerText = "";
+        display.textContent = "";
         firstOperand = null;
         operator = null
         shouldReset = false;
@@ -36,4 +36,48 @@ function onClick(e) {
     if (btn.classList.contains("operator")) {
         handleOperator(btn.dataset.op);
     }
+}
+
+function handleOperator(op) {
+    const currentNumber = Number(display.textContent);
+
+    // = pressed
+    if (op === "=") {
+        if (firstOperand === null || operator === null) return;
+        const result = operate(firstOperand, operator, currentNumber);
+        display.textContent = String(result);
+        firstOperand = null;
+        operator = null
+        shouldReset = true;
+        return;
+    }
+
+    // normal operator pressed but theres only 1 number
+    if (firstOperand === null) {
+        firstOperand = currentNumber;
+        operator = op;
+        shouldReset = true;
+        return;
+    }
+
+    // if consecutive operators pressed, replace the prev one
+    if (shouldReset) {
+        operator = op;
+        return;
+    }
+
+    result = operate(firstOperand, operator, currentNumber);
+    operator = op;
+    firstOperand = result;
+    display.textContent = String(result);
+    shouldReset = true;
+}
+
+function operate(num1, op, num2) {
+    if (op === '+') return num1 + num2;
+    if (op === '-') return num1 - num2;
+    if (op === '*') return num1 * num2;
+    if (op === '/') return num2 === 0 ? 'Error': num1 / num2;
+    if (op === '%') return num1 % num2;
+    return num2;
 }
