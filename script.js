@@ -1,6 +1,6 @@
 let firstOperand = null;
 let operator = null;
-let shouldReset = false; // Should the next number clicked reset display
+let shouldReset = true; // Should the next number clicked reset display
 
 const display = document.querySelector("#display");
 const buttons = document.querySelectorAll("button");
@@ -21,15 +21,16 @@ function onClick(e) {
     }
 
     if (btn.id === "all-clear") {
-        display.textContent = "";
+        display.textContent = "0";
         firstOperand = null;
         operator = null
-        shouldReset = false;
+        shouldReset = true;
         return;
     }
     
     if (btn.id === "clear") {
         display.textContent = display.textContent.slice(0, -1);
+        if (display.textContent === "") display.textContent = 0;
         return;
     }
 
