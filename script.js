@@ -1,43 +1,39 @@
-const buttons = document.querySelectorAll("button");
-buttons.forEach((button) => {
-    button.addEventListener("click", calculator);
-});
-
-const display = document.querySelector("#display");
 let firstOperand = null;
 let operator = null;
-let shouldReset = false; // The next number click should reset display
+let shouldReset = false; // Should the next number clicked reset display
 
-function calculator(e) {
-    // If a number is clicked
-    if (e.target.classList.contains("number")) {
+const display = document.querySelector("#display");
+const buttons = document.querySelectorAll("button");
+buttons.forEach((button) => {
+    button.addEventListener("click", onClick);
+});
+
+function onClick(e) {
+    const btn = e.currentTarget;
+
+    if (btn.classList.contains("number")) {
         if (shouldReset) {
-            display.innerText = "";
+            display.textContent = "";
             shouldReset = false;
         }
-        const numberClicked = e.target.innerText;
-        display.innerText += numberClicked;
+        display.textContent += btn.textContent;
+        return;
     }
 
-    // If an operator (% . + - * / =) is clicked
-    else if (e.target.classList.contains("operator")) {
-        operatorClicked = e.target.datset.op;
-        performOperation(operatorClicked);
+    if (btn.id === "all-clear") {
+        display.innerText = "";
+        firstOperand = null;
+        operator = null
+        shouldReset = false;
+        return;
+    }
+    
+    if (btn.id === "clear") {
+        display.textContent = display.textContent.slice(0, -1);
+        return;
     }
 
-    // If C or AC is clicked
-    else {
-        if (e.target.id === "all-clear") {
-            display.innerText = "";
-        }
-        else if (e.target.id === "clear") {
-            if (display.innerText !== "") {
-                display.innerText = display.innerText.slice(0, -1);
-            }
-        }
+    if (btn.classList.contains("operator")) {
+        handleOperator(btn.dataset.op);
     }
-}
-
-function performOperation(operator) {
-
 }
