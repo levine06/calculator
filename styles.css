@@ -64,6 +64,7 @@ body {
     border: 2px solid #777;
     font-size: 24px;
     font-weight: bold;
+    opacity: 1;
 }
 
 #buttons > #equal {

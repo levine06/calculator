@@ -4,9 +4,25 @@ let shouldReset = true; // Should the next number clicked reset display
 
 const display = document.querySelector("#display");
 const buttons = document.querySelectorAll("button");
+
 buttons.forEach((button) => {
     button.addEventListener("click", onClick);
 });
+
+buttons.forEach((button) => {
+    button.addEventListener("mouseenter", (e) => {
+        e.currentTarget.style.opacity = 0.7;
+        e.currentTarget.style.borderWidth = "3.5px";
+    });
+});
+
+buttons.forEach((button) => {
+    button.addEventListener("mouseout", (e) => {
+        e.currentTarget.style.opacity = 1;
+        e.currentTarget.style.borderWidth = "2px";
+    });
+});
+
 
 function onClick(e) {
     const btn = e.currentTarget;
@@ -67,7 +83,7 @@ function handleOperator(op) {
         return;
     }
 
-    result = operate(firstOperand, operator, currentNumber);
+    const result = operate(firstOperand, operator, currentNumber);
     operator = op;
     firstOperand = result;
     display.textContent = String(result);
